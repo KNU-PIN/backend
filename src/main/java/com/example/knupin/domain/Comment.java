@@ -13,6 +13,8 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int comment_id;
 
+    private int pin_id;
+
     private String ip;
 
     private String contents;

@@ -10,9 +10,6 @@ import java.util.Date;
 @Entity
 public class BannedUser {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int ban_id;
-
     private String ip;
 
     private Date banned_date;

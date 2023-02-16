@@ -8,7 +8,7 @@ import jakarta.persistence.Id;
 import java.util.Date;
 
 @Entity
-public class Like {
+public class LikePin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int like_id;
