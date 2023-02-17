@@ -3,9 +3,11 @@ package com.example.knupin.service;
 import com.example.knupin.domain.Comment;
 import com.example.knupin.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class CommentServiceImpl implements CommentService{
 
     @Autowired
