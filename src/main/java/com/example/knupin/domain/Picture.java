@@ -6,13 +6,13 @@ import jakarta.persistence.*;
 public class Picture {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int picture_id;
+    private int pictureId;
 
     @Column(nullable = false)
-    private int pin_id;
+    private int pinId;
 
     @Column(nullable = false)
-    private String picture_src;
+    private String pictureSrc;
 
     @Column(nullable = false)
     private int sequence;

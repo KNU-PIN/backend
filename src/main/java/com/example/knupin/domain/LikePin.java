@@ -11,9 +11,9 @@ import java.util.Date;
 public class LikePin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int like_id;
+    private int likeId;
 
     private String ip;
 
-    private Date created_at;
+    private Date createdAt;
 }
