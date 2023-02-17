@@ -17,8 +17,7 @@ import java.util.Optional;
 @SpringBootTest
 @Transactional
 public class CommentRepositoryTest {
-//    @Autowired
-//    CommentService commentService;
+
     @Autowired
     CommentRepository commentRepository;
 
@@ -26,43 +25,44 @@ public class CommentRepositoryTest {
     public void save(){
         // given
         Comment params = Comment.builder()
-                .pin_id(1)
+                .pinId(1)
                 .ip("12.23.45.56")
                 .contents("하이하이")
-                .created_at(Timestamp.valueOf(LocalDateTime.now()))
+                .createdAt(Timestamp.valueOf(LocalDateTime.now()))
                 .build();
 
         // when
         commentRepository.save(params);
 
         // then
-        Comment entity = commentRepository.findById(params.getComment_id()).get();
+        Comment entity = commentRepository.findById(params.getCommentId()).get();
         assertThat(entity.getIp()).isEqualTo("12.23.45.56");
         assertThat(entity.getContents()).isEqualTo("하이하이");
     }
 
-//    @Test
-//    public void findByPin_id(){
-//        // given
-//        Comment params = Comment.builder()
-//                .pin_id(-1)
-//                .ip("12.23.45.56")
-//                .contents("하이하이")
-//                .created_at(Timestamp.valueOf(LocalDateTime.now()))
-//                .build();
-//        Comment params2 = Comment.builder()
-//                .pin_id(-1)
-//                .ip("12.23.45.56")
-//                .contents("하이하이2")
-//                .created_at(Timestamp.valueOf(LocalDateTime.now()))
-//                .build();
-//
-//        // when
-//        commentRepository.save(params);
-//
-//        // then
-//        List<Comment> comments = commentRepository.findAllByPin_id(-1);
-//        assertThat(comments.size()).isEqualTo(2);
-//    }
+    @Test
+    public void findByPin_id(){
+        // given
+        Comment params = Comment.builder()
+                .pinId(-1)
+                .ip("12.23.45.56")
+                .contents("하이하이")
+                .createdAt(Timestamp.valueOf(LocalDateTime.now()))
+                .build();
+        Comment params2 = Comment.builder()
+                .pinId(-1)
+                .ip("12.23.45.56")
+                .contents("하이하이2")
+                .createdAt(Timestamp.valueOf(LocalDateTime.now()))
+                .build();
+
+        // when
+        commentRepository.save(params);
+        commentRepository.save(params2);
+
+        // then
+        List<Comment> comments = commentRepository.findByPinId(-1);
+        assertThat(comments.size()).isEqualTo(2);
+    }
 
 }

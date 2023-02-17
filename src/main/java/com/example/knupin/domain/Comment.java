@@ -14,22 +14,22 @@ import java.util.Date;
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int comment_id;
+    private int commentId;
 
-    private int pin_id;
+    private int pinId;
 
     private String ip;
 
     private String contents;
 
-    private Date created_at;
+    private Date createdAt;
 
     @Builder
-    public Comment(int pin_id, String ip, String contents, Date created_at){
-        this.pin_id = pin_id;
+    public Comment(int pinId, String ip, String contents, Date createdAt){
+        this.pinId = pinId;
         this.ip = ip;
         this.contents = contents;
-        this.created_at = created_at;
+        this.createdAt = createdAt;
     }
 
 }
