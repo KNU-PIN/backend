@@ -10,8 +10,12 @@ import java.util.List;
 @Service
 public class CommentServiceImpl implements CommentService{
 
+    private final CommentRepository commentRepository;
+
     @Autowired
-    CommentRepository commentRepository;
+    public CommentServiceImpl(CommentRepository commentRepository) {
+        this.commentRepository = commentRepository;
+    }
 
     @Override
     public void addComment(Comment comment) {
