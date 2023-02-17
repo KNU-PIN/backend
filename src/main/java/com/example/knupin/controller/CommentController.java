@@ -41,7 +41,7 @@ public class CommentController {
     public Map readComments(@PathVariable int pinId){
         Map result = new HashMap<String, Object>();
         for (Comment comment:commentService.readComments(pinId)) {
-            result.put(pinId, comment);
+            result.put(comment.getCommentId(), comment);
         }
         return result;
     }
