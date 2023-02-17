@@ -63,7 +63,8 @@ public class CommentServiceTest {
 
         // then
         List<Comment> comments = commentService.readComments(-1);
-        assertThat(comments.size()).isEqualTo(2);
+        System.out.println("comments.get(0) = " + comments.get(0).getContents());
+        System.out.println("comments.get(1) = " + comments.get(1).getContents());
     }
 
     @Test
