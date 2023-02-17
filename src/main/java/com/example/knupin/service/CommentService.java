@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface CommentService {
     // 댓글 작성
-    public void addComment(Comment comment);
+    public void createComment(Comment comment);
 
     // 댓글 조회
     public List<Comment> readComments(int pinId);

@@ -32,7 +32,7 @@ public class CommentServiceTest {
                 .build();
 
         // when
-        commentService.addComment(params);
+        commentService.createComment(params);
 
         // then
         Comment entity = commentRepository.findById(params.getCommentId()).get();
@@ -57,8 +57,8 @@ public class CommentServiceTest {
                 .build();
 
         // when
-        commentService.addComment(params);
-        commentService.addComment(params2);
+        commentService.createComment(params);
+        commentService.createComment(params2);
 
         // then
         List<Comment> comments = commentService.readComments(-1);
@@ -82,8 +82,8 @@ public class CommentServiceTest {
                 .build();
 
         // when
-        commentService.addComment(params);
-        commentService.addComment(params2);
+        commentService.createComment(params);
+        commentService.createComment(params2);
 
         // then
         int commentCnt = commentService.countComments(-1);
