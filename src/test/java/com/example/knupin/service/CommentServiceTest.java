@@ -1,5 +1,6 @@
 package com.example.knupin.service;
 
+import com.example.knupin.controller.CommentDTO;
 import com.example.knupin.domain.Comment;
 import com.example.knupin.repository.CommentRepository;
 import org.junit.jupiter.api.Test;
@@ -24,7 +25,7 @@ public class CommentServiceTest {
     @Test
     public void addComment(){
         // given
-        Comment params = Comment.builder()
+        CommentDTO params = CommentDTO.builder()
                 .pinId(1)
                 .ip("12.23.45.56")
                 .contents("하이하이")
@@ -32,10 +33,10 @@ public class CommentServiceTest {
                 .build();
 
         // when
-        commentService.createComment(params);
+        int commentID = commentService.createComment(params);
 
         // then
-        Comment entity = commentRepository.findById(params.getCommentId()).get();
+        Comment entity = commentRepository.findById(commentID).get();
         assertThat(entity.getIp()).isEqualTo("12.23.45.56");
         assertThat(entity.getContents()).isEqualTo("하이하이");
     }
@@ -43,13 +44,13 @@ public class CommentServiceTest {
     @Test
     public void readComments(){
         // given
-        Comment params = Comment.builder()
+        CommentDTO params = CommentDTO.builder()
                 .pinId(-1)
                 .ip("12.23.45.56")
                 .contents("하이하이")
                 .createdAt(Timestamp.valueOf(LocalDateTime.now()))
                 .build();
-        Comment params2 = Comment.builder()
+        CommentDTO params2 = CommentDTO.builder()
                 .pinId(-1)
                 .ip("12.23.45.56")
                 .contents("하이하이2")
@@ -68,13 +69,13 @@ public class CommentServiceTest {
     @Test
     public void countComments(){
         // given
-        Comment params = Comment.builder()
+        CommentDTO params = CommentDTO.builder()
                 .pinId(-1)
                 .ip("12.23.45.56")
                 .contents("하이하이")
                 .createdAt(Timestamp.valueOf(LocalDateTime.now()))
                 .build();
-        Comment params2 = Comment.builder()
+        CommentDTO params2 = CommentDTO.builder()
                 .pinId(-1)
                 .ip("12.23.45.56")
                 .contents("하이하이2")

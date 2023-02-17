@@ -1,9 +1,11 @@
 package com.example.knupin.service;
 
+import com.example.knupin.controller.CommentDTO;
 import com.example.knupin.domain.Comment;
 import com.example.knupin.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,8 +20,9 @@ public class CommentServiceImpl implements CommentService{
     }
 
     @Override
-    public void createComment(Comment comment) {
-        commentRepository.save(comment);
+    @Transactional
+    public int createComment(CommentDTO commentDTO) {
+        return commentRepository.save(commentDTO.toEntity()).getCommentId();
     }
 
     @Override
