@@ -41,7 +41,7 @@ public class CommentRepositoryTest {
     }
 
     @Test
-    public void findByPin_id(){
+    public void findByPinId(){
         // given
         Comment params = Comment.builder()
                 .pinId(-1)
@@ -63,6 +63,31 @@ public class CommentRepositoryTest {
         // then
         List<Comment> comments = commentRepository.findByPinId(-1);
         assertThat(comments.size()).isEqualTo(2);
+    }
+
+    @Test
+    public void countComments(){
+        // given
+        Comment params = Comment.builder()
+                .pinId(-1)
+                .ip("12.23.45.56")
+                .contents("하이하이")
+                .createdAt(Timestamp.valueOf(LocalDateTime.now()))
+                .build();
+        Comment params2 = Comment.builder()
+                .pinId(-1)
+                .ip("12.23.45.56")
+                .contents("하이하이2")
+                .createdAt(Timestamp.valueOf(LocalDateTime.now()))
+                .build();
+
+        // when
+        commentRepository.save(params);
+        commentRepository.save(params2);
+
+        // then
+        int commentCount = commentRepository.countByPinId(-1);
+        assertThat(commentCount).isEqualTo(2);
     }
 
 }

@@ -18,6 +18,11 @@ public class CommentServiceImpl implements CommentService{
 
     @Override
     public List<Comment> readComments(int pinId) {
-        return null;
+        return commentRepository.findByPinId(pinId);
+    }
+
+    @Override
+    public int countComments(int pinId) {
+        return commentRepository.countByPinId(pinId);
     }
 }

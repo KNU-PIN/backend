@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Integer> {
     List<Comment> findByPinId(int pinId);
+
+    int countByPinId(int pinId);
 }

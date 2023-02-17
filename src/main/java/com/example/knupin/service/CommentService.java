@@ -14,5 +14,7 @@ public interface CommentService {
     // 댓글 조회
     public List<Comment> readComments(int pinId);
 
+    // 댓글 수 조회
+    public int countComments(int pinId);
 
 }
