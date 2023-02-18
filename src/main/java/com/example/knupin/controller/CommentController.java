@@ -3,9 +3,12 @@ package com.example.knupin.controller;
 import com.example.knupin.domain.Comment;
 import com.example.knupin.model.CommentDTO;
 import com.example.knupin.service.CommentService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -22,13 +25,30 @@ public class CommentController {
     }
 
 
+//    @PostMapping("/api/v1/comment/create")
+//    @ResponseBody
+//    public CommentDTO createComment(@RequestBody Map<String, Object> body){
+//        CommentDTO commentDTO = CommentDTO.builder()
+//                .pinId((int)body.get("pinId"))
+//                .contents(body.get("contents").toString())
+//                .ip("12.11.13.14")
+//                .build();
+//        commentService.createComment(commentDTO);
+//        return commentDTO;
+//    }
+
     @PostMapping("/api/v1/comment/create")
     @ResponseBody
     public CommentDTO createComment(@RequestBody Map<String, Object> body){
+        HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        String ip = req.getHeader("X-FORWARDED-FOR");
+        if (ip == null)
+            ip = req.getRemoteAddr();
+
         CommentDTO commentDTO = CommentDTO.builder()
                 .pinId((int)body.get("pinId"))
                 .contents(body.get("contents").toString())
-                .ip("12.11.13.14")
+                .ip(ip)
                 .build();
         commentService.createComment(commentDTO);
         return commentDTO;
