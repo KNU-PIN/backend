@@ -1,7 +1,7 @@
 package com.example.knupin.controller;
 
-import com.example.knupin.domain.Comment;
 import com.example.knupin.model.CommentDTO;
+import com.example.knupin.model.ResponseCommentListDTO;
 import com.example.knupin.service.CommentService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.data.domain.Pageable;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.Map;
 
 @Controller
@@ -56,12 +54,8 @@ public class CommentController {
 
     @GetMapping("/api/v1/comment/{pinId}")
     @ResponseBody
-    public Map readComments(@PathVariable int pinId){
-        Map result = new HashMap<String, Object>();
-        for (Comment comment:commentService.readComments(pinId)) {
-            result.put(comment.getCommentId(), comment);
-        }
-        return result;
+    public ResponseCommentListDTO readComments(@PathVariable int pinId, final Pageable pageable){
+        return commentService.readComments(pinId, pageable);
     }
 
 }
