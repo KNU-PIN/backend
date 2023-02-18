@@ -1,12 +1,14 @@
 package com.example.knupin.service;
 
-import com.example.knupin.controller.CommentDTO;
+import com.example.knupin.model.CommentDTO;
 import com.example.knupin.domain.Comment;
 import com.example.knupin.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -22,6 +24,7 @@ public class CommentServiceImpl implements CommentService{
     @Override
     @Transactional
     public int createComment(CommentDTO commentDTO) {
+        commentDTO.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
         return commentRepository.save(commentDTO.toEntity()).getCommentId();
     }
 
@@ -34,4 +37,5 @@ public class CommentServiceImpl implements CommentService{
     public int countComments(int pinId) {
         return commentRepository.countByPinId(pinId);
     }
+
 }

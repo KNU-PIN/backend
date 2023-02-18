@@ -1,4 +1,4 @@
-package com.example.knupin.controller;
+package com.example.knupin.model;
 
 import com.example.knupin.domain.Comment;
 import lombok.Builder;

@@ -1,6 +1,7 @@
 package com.example.knupin.controller;
 
 import com.example.knupin.domain.Comment;
+import com.example.knupin.model.CommentDTO;
 import com.example.knupin.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -28,10 +28,8 @@ public class CommentController {
         CommentDTO commentDTO = CommentDTO.builder()
                 .pinId((int)body.get("pinId"))
                 .contents(body.get("contents").toString())
-                .ip("11.11.11.11")
-                .createdAt(Timestamp.valueOf(LocalDateTime.now()))
+                .ip("12.11.13.14")
                 .build();
-        // ** client로부터 ip받기 필요 **
         commentService.createComment(commentDTO);
         return commentDTO;
     }

@@ -1,6 +1,6 @@
 package com.example.knupin.service;
 
-import com.example.knupin.controller.CommentDTO;
+import com.example.knupin.model.CommentDTO;
 import com.example.knupin.domain.Comment;
 import com.example.knupin.repository.CommentRepository;
 import org.junit.jupiter.api.Test;
