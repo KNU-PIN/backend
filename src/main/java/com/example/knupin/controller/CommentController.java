@@ -37,7 +37,7 @@ public class CommentController {
 
     @PostMapping("/api/v1/comment/create")
     @ResponseBody
-    public CommentDTO createComment(@RequestBody Map<String, Object> body){
+    public int createComment(@RequestBody Map<String, Object> body){
         HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
         String ip = req.getHeader("X-FORWARDED-FOR");
         if (ip == null)
@@ -49,7 +49,7 @@ public class CommentController {
                 .ip(ip)
                 .build();
         commentService.createComment(commentDTO);
-        return commentDTO;
+        return 200;
     }
 
     @GetMapping("/api/v1/comment/{pinId}")
