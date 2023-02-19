@@ -12,7 +12,7 @@ public class Pin {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int pin_id;
+    private int pinId;
 
     private String ip;
 
@@ -28,7 +28,7 @@ public class Pin {
 
     private String pw;
 
-    private Date created_at;
+    private Date createdAt;
 
-    private Boolean is_deleted;
+    private Boolean isDeleted;
 }

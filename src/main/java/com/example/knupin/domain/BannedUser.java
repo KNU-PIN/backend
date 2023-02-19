@@ -12,7 +12,7 @@ public class BannedUser {
     @Id
     private String ip;
 
-    private Date banned_date;
+    private Date bannedAt;
 
     private String contents;
 }
