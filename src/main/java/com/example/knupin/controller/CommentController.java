@@ -37,8 +37,7 @@ public class CommentController {
                 .contents(body.get("contents").toString())
                 .ip(ip)
                 .build();
-        commentService.createComment(commentDTO);
-        return 200;
+        return commentService.createComment(commentDTO);
     }
 
     @GetMapping("/{pinId}")
