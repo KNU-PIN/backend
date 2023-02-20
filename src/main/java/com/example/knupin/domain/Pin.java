@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 
 import java.util.Date;
 import lombok.Getter;
+import lombok.Builder;
 
 @Entity
 @Getter
@@ -33,4 +34,20 @@ public class Pin {
     private Date createdAt;
 
     private Boolean isDeleted;
+
+    public Pin() {
+    }
+
+    @Builder
+    public Pin(String ip, Float latitude, Float longitude, String title, String contents, String type, String pw, Date createdAt) {
+        this.ip = ip;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.title = title;
+        this.contents = contents;
+        this.type = type;
+        this.pw = pw;
+        this.createdAt = createdAt;
+        this.isDeleted = false;
+    }
 }

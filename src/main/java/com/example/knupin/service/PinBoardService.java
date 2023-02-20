@@ -11,8 +11,18 @@ public class PinBoardService {
     @Autowired
     private PinBoardRepository pinBoardRepository;
 
+    public int createPinBoard(PinBoardDTO pinBoardDTO) {
+        return pinBoardRepository.save(pinBoardDTO.toEntity()).getPinId();
+    }
+
     public PinBoardDTO readPinBoard(int pinId){
         return new PinBoardDTO(pinBoardRepository.findByPinId(pinId).get(0));
+    }
+
+    
+    public int deletePinBoard(int pinId){
+        pinBoardRepository.deleteById(pinId);
+        return true;
     }
     
 }

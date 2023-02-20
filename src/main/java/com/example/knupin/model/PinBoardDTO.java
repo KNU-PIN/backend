@@ -42,4 +42,17 @@ public class PinBoardDTO {
         this.pw = pin.getPw();
         this.createdAt = pin.getCreatedAt();
     }
+
+    public Pin toEntity() {
+        return Pin.builder()
+                .ip(ip)
+                .latitude(latitude)
+                .longitude(longitude)
+                .title(title)
+                .contents(contents)
+                .type(type)
+                .pw(pw)
+                .createdAt(createdAt)
+                .build();
+    }
 }

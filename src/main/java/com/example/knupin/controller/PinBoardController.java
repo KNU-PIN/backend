@@ -2,13 +2,18 @@ package com.example.knupin.controller;
 
 import com.example.knupin.domain.Pin;
 import com.example.knupin.model.PinBoardDTO;
-import com.example.knupin.service.*;
-import org.springframework.beans.factory.annotation.*;
+import com.example.knupin.service.PinBoardService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Controller
 @RequestMapping("/api/v1/pinboard")
@@ -26,14 +31,13 @@ public class PinBoardController {
     @PostMapping("/createpin")
     @ResponseBody
     public Object createPinBoard(@RequestBody PinBoardDTO body){
-        System.out.println("createPinBoard "+body);
-        return body;
-        // PinBoardDTO pinBoardDTO = PinBoardDTO.builder()
-        //         .title(body.get("title").toString())
-        //         .contents(body.get("contents").toString())
-        //         .build();
-        // pinBoardService.createPinBoard(pinBoardDTO);
-        // return pinBoardDTO;
+        HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        String ip = req.getHeader("X-FORWARDED-FOR");
+        if (ip == null)
+            ip = req.getRemoteAddr();
+        body.setIp(ip);
+        body.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        return pinBoardService.createPinBoard(body);
     }
 
 }
