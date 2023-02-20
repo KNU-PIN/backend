@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.Map;
 
 @Controller
+@RequestMapping("/api/v1/comment")
 public class CommentController {
     private final CommentService commentService;
 
@@ -23,19 +24,7 @@ public class CommentController {
     }
 
 
-//    @PostMapping("/api/v1/comment/create")
-//    @ResponseBody
-//    public CommentDTO createComment(@RequestBody Map<String, Object> body){
-//        CommentDTO commentDTO = CommentDTO.builder()
-//                .pinId((int)body.get("pinId"))
-//                .contents(body.get("contents").toString())
-//                .ip("12.11.13.14")
-//                .build();
-//        commentService.createComment(commentDTO);
-//        return commentDTO;
-//    }
-
-    @PostMapping("/api/v1/comment/create")
+    @PostMapping("/create")
     @ResponseBody
     public int createComment(@RequestBody Map<String, Object> body){
         HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
@@ -52,7 +41,7 @@ public class CommentController {
         return 200;
     }
 
-    @GetMapping("/api/v1/comment/{pinId}")
+    @GetMapping("/{pinId}")
     @ResponseBody
     public ResponseCommentListDTO readComments(@PathVariable int pinId, final Pageable pageable){
         return commentService.readComments(pinId, pageable);
