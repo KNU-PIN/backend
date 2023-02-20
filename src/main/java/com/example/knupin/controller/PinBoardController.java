@@ -5,6 +5,7 @@ import com.example.knupin.model.PinBoardDTO;
 import com.example.knupin.service.PinBoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -39,5 +40,11 @@ public class PinBoardController {
         body.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
         return pinBoardService.createPinBoard(body);
     }
-
+    
+    @DeleteMapping("/{pinId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deletePinBoard(@PathVariable int pinId,@RequestBody Map<String, Object> body) {
+        String pw = body.get("pw").toString();
+        pinBoardService.deletePinBoard(pinId,pw);
+    }
 }

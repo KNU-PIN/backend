@@ -4,12 +4,12 @@ import com.example.knupin.domain.Pin;
 import lombok.ToString;
 import lombok.Getter;
 import lombok.Setter;
-
+import lombok.AccessLevel;
 
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-@Getter
+@Getter(AccessLevel.PUBLIC)
 @Setter
 public class PinBoardDTO {
     private String ip;
@@ -24,6 +24,7 @@ public class PinBoardDTO {
 
     private String type;
 
+    @Getter(AccessLevel.NONE)
     private String pw;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")

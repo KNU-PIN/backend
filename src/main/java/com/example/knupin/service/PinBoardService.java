@@ -1,10 +1,17 @@
 package com.example.knupin.service;
 
 import com.example.knupin.model.PinBoardDTO;
-import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.knupin.exception.PinNotFoundException;
+import com.example.knupin.exception.PinDeletedException;
+import com.example.knupin.exception.WrongPasswordException;
 import com.example.knupin.domain.Pin;
 import com.example.knupin.repository.PinBoardRepository;
+
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PinBoardService {
@@ -15,14 +22,33 @@ public class PinBoardService {
         return pinBoardRepository.save(pinBoardDTO.toEntity()).getPinId();
     }
 
-    public PinBoardDTO readPinBoard(int pinId){
-        return new PinBoardDTO(pinBoardRepository.findByPinId(pinId).get(0));
+    public PinBoardDTO readPinBoard(int pinId) {
+        Optional<Pin> optionalPin = pinBoardRepository.findById(pinId);
+        if (optionalPin.isPresent()) {
+            Pin pin = optionalPin.get();
+            if (pin.getIsDeleted()) {
+                throw new PinDeletedException("The pin has been deleted.");
+            }
+            return new PinBoardDTO(pin);
+        } else {
+            throw new PinNotFoundException("The pin does not exist.");
+        }
     }
 
-    
-    public int deletePinBoard(int pinId){
-        pinBoardRepository.deleteById(pinId);
-        return true;
+    public void deletePinBoard(int pinId,String pw) {
+        Optional<Pin> optionalPin = pinBoardRepository.findById(pinId);
+        if (optionalPin.isPresent()) {
+            Pin pin = optionalPin.get();
+            if (pin.getIsDeleted()) {
+                throw new PinDeletedException("The pin has already been deleted.");
+            }
+            if (!pin.getPw().equals(pw)) {
+                throw new WrongPasswordException("The password is wrong.");
+            }
+            pin.setIsDeleted(true);
+            pinBoardRepository.save(pin);
+        } else {
+            throw new PinNotFoundException("The pin does not exist.");
+        }
     }
-    
 }
