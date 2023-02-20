@@ -19,7 +19,6 @@ public class CommentDTO {
 
     private String contents;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private Date createdAt;
 
     @Builder
