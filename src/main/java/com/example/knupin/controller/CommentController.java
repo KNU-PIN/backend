@@ -28,17 +28,8 @@ public class CommentController {
 
     @PostMapping("/create")
     @ResponseBody
-    public void createComment(@RequestBody Map<String, Object> body){
-        HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-        String ip = req.getHeader("X-FORWARDED-FOR");
-        if (ip == null)
-            ip = req.getRemoteAddr();
-
-        CommentDTO commentDTO = CommentDTO.builder()
-                .pinId((int)body.get("pinId"))
-                .contents(body.get("contents").toString())
-                .ip(ip)
-                .build();
+    public void createComment(@RequestBody CommentDTO commentDTO,@RequestHeader("X-FORWARDED-FOR") String ip){   
+        commentDTO.setIp(ip);
         commentDTO.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
         commentService.createComment(commentDTO);
     }
