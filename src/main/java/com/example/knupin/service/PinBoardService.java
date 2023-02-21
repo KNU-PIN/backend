@@ -24,31 +24,29 @@ public class PinBoardService {
 
     public PinBoardDTO readPinBoard(int pinId) {
         Optional<Pin> optionalPin = pinBoardRepository.findById(pinId);
-        if (optionalPin.isPresent()) {
-            Pin pin = optionalPin.get();
-            if (pin.getIsDeleted()) {
-                throw new PinDeletedException("The pin has been deleted.");
-            }
-            return new PinBoardDTO(pin);
-        } else {
+        if (!optionalPin.isPresent()){
             throw new PinNotFoundException("The pin does not exist.");
         }
+        Pin pin = optionalPin.get();
+        if (pin.getIsDeleted()){
+            throw new PinDeletedException("The pin has been deleted.");
+        }
+        return new PinBoardDTO(pin);
     }
 
     public void deletePinBoard(int pinId,String pw) {
         Optional<Pin> optionalPin = pinBoardRepository.findById(pinId);
-        if (optionalPin.isPresent()) {
-            Pin pin = optionalPin.get();
-            if (pin.getIsDeleted()) {
-                throw new PinDeletedException("The pin has already been deleted.");
-            }
-            if (!pin.getPw().equals(pw)) {
-                throw new WrongPasswordException("The password is wrong.");
-            }
-            pin.setIsDeleted(true);
-            pinBoardRepository.save(pin);
-        } else {
+        if (!optionalPin.isPresent()){
             throw new PinNotFoundException("The pin does not exist.");
         }
+        Pin pin = optionalPin.get();
+        if (pin.getIsDeleted()){
+            throw new PinDeletedException("The pin has already been deleted.");
+        }
+        if (!pin.getPw().equals(pw)){
+            throw new WrongPasswordException("The password is wrong.");
+        }
+        pin.setIsDeleted(true);
+        pinBoardRepository.save(pin);
     }
 }

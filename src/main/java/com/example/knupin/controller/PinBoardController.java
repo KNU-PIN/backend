@@ -31,11 +31,7 @@ public class PinBoardController {
     
     @PostMapping("/createpin")
     @ResponseBody
-    public Object createPinBoard(@RequestBody PinBoardDTO body){
-        HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-        String ip = req.getHeader("X-FORWARDED-FOR");
-        if (ip == null)
-            ip = req.getRemoteAddr();
+    public Object createPinBoard(@RequestBody PinBoardDTO body,@RequestHeader("X-FORWARDED-FOR") String ip){
         body.setIp(ip);
         body.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
         return pinBoardService.createPinBoard(body);

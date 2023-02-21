@@ -40,35 +40,31 @@ public class CommentServiceImpl implements CommentService{
     @Transactional
     public int createComment(CommentDTO commentDTO) {
         Optional<Pin> optionalPin = pinBoardRepository.findById(commentDTO.getPinId());
-        if (optionalPin.isPresent()) {
-            Pin pin = optionalPin.get();
-            if (pin.getIsDeleted()) {
-                throw new PinDeletedException("The pin has been deleted.");
-            }
-            return commentRepository.save(commentDTO.toEntity()).getCommentId();
-        } else {
+        if (!optionalPin.isPresent()){
             throw new PinNotFoundException("The pin does not exist.");
         }
+        Pin pin = optionalPin.get();
+        if (pin.getIsDeleted()) {
+            throw new PinDeletedException("The pin has been deleted.");
+        }
+        return commentRepository.save(commentDTO.toEntity()).getCommentId();
     }
 
     @Override
     public ResponseCommentListDTO readComments(int pinId, final Pageable pageable) {
         Optional<Pin> optionalPin = pinBoardRepository.findById(pinId);
-        if (optionalPin.isPresent()) {
-            Pin pin = optionalPin.get();
-            if (pin.getIsDeleted()) {
-                throw new PinDeletedException("The pin has been deleted.");
-            }
-
-            List<Comment> comments = commentRepository.findByPinId(pinId, pageable);
-            ResponseCommentListDTO responseCommentListDTO = ResponseCommentListDTO.builder()
-                    .comments(anonymization(comments, pageable))
-                    .build();
-            return responseCommentListDTO;
-
-        } else {
+        if (!optionalPin.isPresent()){
             throw new PinNotFoundException("The pin does not exist.");
         }
+        Pin pin = optionalPin.get();
+        if (pin.getIsDeleted()) {
+            throw new PinDeletedException("The pin has been deleted.");
+        }
+        List<Comment> comments = commentRepository.findByPinId(pinId, pageable);
+        ResponseCommentListDTO responseCommentListDTO = ResponseCommentListDTO.builder()
+                .comments(anonymization(comments, pageable))
+                .build();
+        return responseCommentListDTO;
     }
 
     @Override
@@ -81,10 +77,10 @@ public class CommentServiceImpl implements CommentService{
         int startNum = pageable.getPageNumber() * pageable.getPageSize();
         for(Comment comment: comments){
             ResponseCommentDTO responseCommentDTO = ResponseCommentDTO.builder()
-                            .name("익명"+ startNum++)
-                                    .contents(comment.getContents())
-                                            .createdAt(comment.getCreatedAt())
-                                                    .build();
+                .name("익명"+ startNum++)
+                .contents(comment.getContents())
+                .createdAt(comment.getCreatedAt())
+                .build();
             responseCommentDTOS.add(responseCommentDTO);
         }
         return responseCommentDTOS;
