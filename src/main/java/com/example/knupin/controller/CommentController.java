@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Map;
 
 @Controller
@@ -30,7 +31,7 @@ public class CommentController {
     @ResponseBody
     public void createComment(@RequestBody CommentDTO commentDTO,@RequestHeader("X-FORWARDED-FOR") String ip){   
         commentDTO.setIp(ip);
-        commentDTO.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        commentDTO.setCreatedAt(Timestamp.valueOf(LocalDateTime.now().atZone(ZoneId.of("Asia/Seoul")).toLocalDateTime()));
         commentService.createComment(commentDTO);
     }
 

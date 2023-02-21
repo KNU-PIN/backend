@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.Map;
 import java.sql.Timestamp;
@@ -33,7 +34,7 @@ public class PinBoardController {
     @ResponseBody
     public Object createPinBoard(@RequestBody PinBoardDTO body,@RequestHeader("X-FORWARDED-FOR") String ip){
         body.setIp(ip);
-        body.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        body.setCreatedAt(Timestamp.valueOf(LocalDateTime.now().atZone(ZoneId.of("Asia/Seoul")).toLocalDateTime()));
         return pinBoardService.createPinBoard(body);
     }
     
