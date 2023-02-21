@@ -40,8 +40,8 @@ public class RequestPinBoardDTO {
     public Pin toEntity() {
         return Pin.builder()
                 .ip(ip)
-                .latitude(latitude)
-                .longitude(longitude)
+                .latitude((int) (latitude*10000))
+                .longitude((int) (longitude*10000))
                 .title(title)
                 .contents(contents)
                 .type(type)
