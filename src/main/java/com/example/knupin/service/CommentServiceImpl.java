@@ -1,10 +1,15 @@
 package com.example.knupin.service;
 
+import com.example.knupin.domain.Pin;
+import com.example.knupin.exception.PinDeletedException;
+import com.example.knupin.exception.PinNotFoundException;
 import com.example.knupin.model.CommentDTO;
 import com.example.knupin.domain.Comment;
+import com.example.knupin.model.PinBoardDTO;
 import com.example.knupin.model.ResponseCommentDTO;
 import com.example.knupin.model.ResponseCommentListDTO;
 import com.example.knupin.repository.CommentRepository;
+import com.example.knupin.repository.PinBoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -16,31 +21,54 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CommentServiceImpl implements CommentService{
 
     private final CommentRepository commentRepository;
+    private PinBoardRepository pinBoardRepository;
 
     @Autowired
-    public CommentServiceImpl(CommentRepository commentRepository) {
+    public CommentServiceImpl(CommentRepository commentRepository, PinBoardRepository pinBoardRepository) {
         this.commentRepository = commentRepository;
+        this.pinBoardRepository = pinBoardRepository;
     }
+
 
     @Override
     @Transactional
     public int createComment(CommentDTO commentDTO) {
-        commentDTO.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
-        return commentRepository.save(commentDTO.toEntity()).getCommentId();
+        Optional<Pin> optionalPin = pinBoardRepository.findById(commentDTO.getPinId());
+        if (optionalPin.isPresent()) {
+            Pin pin = optionalPin.get();
+            if (pin.getIsDeleted()) {
+                throw new PinDeletedException("The pin has been deleted.");
+            }
+            return commentRepository.save(commentDTO.toEntity()).getCommentId();
+        } else {
+            throw new PinNotFoundException("The pin does not exist.");
+        }
     }
 
     @Override
     public ResponseCommentListDTO readComments(int pinId, final Pageable pageable) {
-        List<Comment> comments = commentRepository.findByPinId(pinId, pageable);
-        ResponseCommentListDTO responseCommentListDTO = ResponseCommentListDTO.builder()
-                .comments(anonymization(comments, pageable))
-                .build();
-        return responseCommentListDTO;
+        Optional<Pin> optionalPin = pinBoardRepository.findById(pinId);
+        if (optionalPin.isPresent()) {
+            Pin pin = optionalPin.get();
+            if (pin.getIsDeleted()) {
+                throw new PinDeletedException("The pin has been deleted.");
+            }
+
+            List<Comment> comments = commentRepository.findByPinId(pinId, pageable);
+            ResponseCommentListDTO responseCommentListDTO = ResponseCommentListDTO.builder()
+                    .comments(anonymization(comments, pageable))
+                    .build();
+            return responseCommentListDTO;
+
+        } else {
+            throw new PinNotFoundException("The pin does not exist.");
+        }
     }
 
     @Override

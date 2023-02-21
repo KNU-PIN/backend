@@ -11,6 +11,8 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.data.domain.Pageable;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 @Controller
@@ -26,7 +28,7 @@ public class CommentController {
 
     @PostMapping("/create")
     @ResponseBody
-    public int createComment(@RequestBody Map<String, Object> body){
+    public void createComment(@RequestBody Map<String, Object> body){
         HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
         String ip = req.getHeader("X-FORWARDED-FOR");
         if (ip == null)
@@ -37,7 +39,8 @@ public class CommentController {
                 .contents(body.get("contents").toString())
                 .ip(ip)
                 .build();
-        return commentService.createComment(commentDTO);
+        commentDTO.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        commentService.createComment(commentDTO);
     }
 
     @GetMapping("/{pinId}")
