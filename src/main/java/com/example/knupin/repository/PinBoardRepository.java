@@ -8,5 +8,4 @@ import java.util.List;
 
 @Repository
 public interface PinBoardRepository extends JpaRepository<Pin, Integer> {
-    List<Pin> findByPinId(int pinId);
 }

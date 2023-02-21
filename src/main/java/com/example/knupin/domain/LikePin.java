@@ -13,6 +13,8 @@ public class LikePin {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int likeId;
 
+    private int pinId;
+
     private String ip;
 
     private Date createdAt;

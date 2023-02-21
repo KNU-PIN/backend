@@ -1,12 +1,13 @@
 package com.example.knupin.service;
 
-import com.example.knupin.model.PinBoardDTO;
+import com.example.knupin.model.request.RequestPinBoardDTO;
+import com.example.knupin.model.response.ResponsePinBoardDTO;
 import com.example.knupin.domain.Picture;
+import com.example.knupin.domain.Pin;
 import com.example.knupin.exception.UploadFailedException;
 import com.example.knupin.exception.PinNotFoundException;
 import com.example.knupin.exception.PinDeletedException;
 import com.example.knupin.exception.WrongPasswordException;
-import com.example.knupin.domain.Pin;
 import com.example.knupin.repository.PinBoardRepository;
 import com.example.knupin.repository.PictureRepository;
 
@@ -27,7 +28,7 @@ public class PinBoardService {
     @Autowired
     private S3Service s3Service;
 
-    public int createPinBoard(PinBoardDTO pinBoardDTO) {
+    public int createPinBoard(RequestPinBoardDTO pinBoardDTO) {
         int pinId = pinBoardRepository.save(pinBoardDTO.toEntity()).getPinId();
         int sequence = 0;
         for(MultipartFile image : pinBoardDTO.getImages()){
@@ -42,7 +43,7 @@ public class PinBoardService {
         return pinId;
     }
 
-    public PinBoardDTO readPinBoard(int pinId) {
+    public ResponsePinBoardDTO readPinBoard(int pinId) {
         Optional<Pin> optionalPin = pinBoardRepository.findById(pinId);
         if (!optionalPin.isPresent()){
             throw new PinNotFoundException("The pin does not exist.");
@@ -51,7 +52,7 @@ public class PinBoardService {
         if (pin.getIsDeleted()){
             throw new PinDeletedException("The pin has been deleted.");
         }
-        return new PinBoardDTO(pin);
+        return new ResponsePinBoardDTO(pin);
     }
 
     public void deletePinBoard(int pinId,String pw) {

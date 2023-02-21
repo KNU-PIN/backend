@@ -2,8 +2,10 @@ package com.example.knupin.domain;
 
 import jakarta.persistence.*;
 import lombok.Builder;
+import lombok.Getter;
 
 @Entity
+@Getter
 public class Picture {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
