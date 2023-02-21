@@ -33,7 +33,7 @@ public class PinBoardController {
         return pinBoardService.readPinBoard(pinId);
     }
 
-    @PostMapping("/create")
+    @PostMapping("/createpin")
     @ResponseBody
     public int readPinBoard(RequestPinBoardDTO body,@RequestHeader("X-FORWARDED-FOR") String ip){
         body.setIp(ip);

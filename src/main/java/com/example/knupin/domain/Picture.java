@@ -20,6 +20,9 @@ public class Picture {
     @Column(nullable = false)
     private int sequence;
 
+    public Picture() {
+    }
+
     @Builder
     public Picture(int pinId, String pictureSrc, int sequence) {
         this.pinId = pinId;

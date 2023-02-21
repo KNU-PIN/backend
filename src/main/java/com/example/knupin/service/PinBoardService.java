@@ -2,6 +2,7 @@ package com.example.knupin.service;
 
 import com.example.knupin.model.request.RequestPinBoardDTO;
 import com.example.knupin.model.response.ResponsePinBoardDTO;
+import com.example.knupin.model.response.ResponsePictureDTO;
 import com.example.knupin.domain.Picture;
 import com.example.knupin.domain.Pin;
 import com.example.knupin.exception.UploadFailedException;
@@ -18,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.Optional;
 import java.io.IOException;
+import java.util.stream.Collectors;
 
 @Service
 public class PinBoardService {
@@ -52,7 +54,16 @@ public class PinBoardService {
         if (pin.getIsDeleted()){
             throw new PinDeletedException("The pin has been deleted.");
         }
-        return new ResponsePinBoardDTO(pin);
+        ResponsePinBoardDTO responsePinBoardDTO= new ResponsePinBoardDTO(pin);
+        responsePinBoardDTO.setImages(
+            pictureRepository
+            .findByPinId(pinId)
+            .stream()
+            .map(ResponsePictureDTO::new)
+            .collect(Collectors.toList())
+        );
+        //responsePinBoardDTO.setLike();
+        return responsePinBoardDTO;
     }
 
     public void deletePinBoard(int pinId,String pw) {

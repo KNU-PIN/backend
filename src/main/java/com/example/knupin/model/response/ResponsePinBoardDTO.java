@@ -31,6 +31,8 @@ public class ResponsePinBoardDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private Date createdAt;
 
+    private int like;
+
     public ResponsePinBoardDTO() {
     }
 
