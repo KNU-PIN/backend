@@ -5,7 +5,6 @@ import com.example.knupin.exception.PinDeletedException;
 import com.example.knupin.exception.PinNotFoundException;
 import com.example.knupin.model.CommentDTO;
 import com.example.knupin.domain.Comment;
-import com.example.knupin.model.PinBoardDTO;
 import com.example.knupin.model.ResponseCommentDTO;
 import com.example.knupin.model.ResponseCommentListDTO;
 import com.example.knupin.repository.CommentRepository;

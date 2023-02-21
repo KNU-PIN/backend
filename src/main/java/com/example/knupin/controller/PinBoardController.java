@@ -1,8 +1,10 @@
 package com.example.knupin.controller;
 
 import com.example.knupin.domain.Pin;
-import com.example.knupin.model.PinBoardDTO;
+import com.example.knupin.model.request.RequestPinBoardDTO;
+import com.example.knupin.model.response.ResponsePinBoardDTO;
 import com.example.knupin.service.PinBoardService;
+import com.example.knupin.service.S3Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
@@ -22,17 +24,19 @@ import java.time.LocalDateTime;
 public class PinBoardController {
     @Autowired
     private PinBoardService pinBoardService;
+    @Autowired
+    private S3Service s3Service;
 
     @GetMapping("/{pinId}")
     @ResponseBody
-    public PinBoardDTO readPinBoard(@PathVariable int pinId){
+    public ResponsePinBoardDTO readPinBoard(@PathVariable int pinId){
         System.out.println("readPinBoard "+pinId);
         return pinBoardService.readPinBoard(pinId);
     }
-    
+
     @PostMapping("/createpin")
     @ResponseBody
-    public Object createPinBoard(@RequestBody PinBoardDTO body,@RequestHeader("X-FORWARDED-FOR") String ip){
+    public int readPinBoard(RequestPinBoardDTO body,@RequestHeader("X-FORWARDED-FOR") String ip){
         body.setIp(ip);
         body.setCreatedAt(Timestamp.valueOf(LocalDateTime.now().atZone(ZoneId.of("Asia/Seoul")).toLocalDateTime()));
         return pinBoardService.createPinBoard(body);

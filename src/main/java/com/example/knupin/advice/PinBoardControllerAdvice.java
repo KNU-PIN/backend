@@ -27,4 +27,10 @@ public class PinBoardControllerAdvice {
     public ResponseEntity<String> wrongPasswordException(WrongPasswordException e){
         return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
     }
+
+    @ExceptionHandler(UploadFailedException.class)
+    @ResponseBody
+    public ResponseEntity<String> uploadFailedException(UploadFailedException e){
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
