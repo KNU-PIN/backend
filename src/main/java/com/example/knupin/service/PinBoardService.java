@@ -19,6 +19,7 @@ public class PinBoardService {
     private PinBoardRepository pinBoardRepository;
 
     public int createPinBoard(PinBoardDTO pinBoardDTO) {
+
         return pinBoardRepository.save(pinBoardDTO.toEntity()).getPinId();
     }
 
