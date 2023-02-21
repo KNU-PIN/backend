@@ -7,10 +7,13 @@ import lombok.Setter;
 import lombok.AccessLevel;
 
 import java.util.Date;
+import java.util.List;
+import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Getter(AccessLevel.PUBLIC)
 @Setter
+@ToString
 public class PinBoardDTO {
     private String ip;
 
@@ -27,8 +30,11 @@ public class PinBoardDTO {
     @Getter(AccessLevel.NONE)
     private String pw;
 
+    private List<MultipartFile> images;
+    
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private Date createdAt;
+
 
     public PinBoardDTO() {
     }

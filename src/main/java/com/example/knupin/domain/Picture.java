@@ -1,6 +1,7 @@
 package com.example.knupin.domain;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 
 @Entity
 public class Picture {
@@ -16,4 +17,11 @@ public class Picture {
 
     @Column(nullable = false)
     private int sequence;
+
+    @Builder
+    public Picture(int pinId, String pictureSrc, int sequence) {
+        this.pinId = pinId;
+        this.pictureSrc = pictureSrc;
+        this.sequence = sequence;
+    }
 }
