@@ -41,7 +41,7 @@ public class Pin {
     }
 
     @Builder
-    public Pin(String ip, Float latitude, Float longitude, String title, String contents, String type, String pw, Date createdAt) {
+    public Pin(String ip, int latitude, int longitude, String title, String contents, String type, String pw, Date createdAt) {
         this.ip = ip;
         this.latitude = latitude;
         this.longitude = longitude;
