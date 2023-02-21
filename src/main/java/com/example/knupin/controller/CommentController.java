@@ -1,20 +1,16 @@
 package com.example.knupin.controller;
 
 import com.example.knupin.model.CommentDTO;
-import com.example.knupin.model.ResponseCommentListDTO;
+import com.example.knupin.model.response.ResponseCommentListDTO;
 import com.example.knupin.service.CommentService;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.data.domain.Pageable;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/api/v1/comment")

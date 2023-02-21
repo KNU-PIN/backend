@@ -5,20 +5,16 @@ import com.example.knupin.exception.PinDeletedException;
 import com.example.knupin.exception.PinNotFoundException;
 import com.example.knupin.model.CommentDTO;
 import com.example.knupin.domain.Comment;
-import com.example.knupin.model.PinBoardDTO;
-import com.example.knupin.model.ResponseCommentDTO;
-import com.example.knupin.model.ResponseCommentListDTO;
+import com.example.knupin.model.response.ResponseCommentDTO;
+import com.example.knupin.model.response.ResponseCommentListDTO;
 import com.example.knupin.repository.CommentRepository;
 import com.example.knupin.repository.PinBoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

@@ -32,7 +32,7 @@ public class PinBoardController {
     
     @PostMapping("/createpin")
     @ResponseBody
-    public Object createPinBoard(@RequestBody PinBoardDTO body,@RequestHeader("X-FORWARDED-FOR") String ip){
+    public int createPinBoard(@RequestBody PinBoardDTO body,@RequestHeader("X-FORWARDED-FOR") String ip){
         body.setIp(ip);
         body.setCreatedAt(Timestamp.valueOf(LocalDateTime.now().atZone(ZoneId.of("Asia/Seoul")).toLocalDateTime()));
         return pinBoardService.createPinBoard(body);
@@ -44,4 +44,7 @@ public class PinBoardController {
         String pw = body.get("pw").toString();
         pinBoardService.deletePinBoard(pinId,pw);
     }
+
+
+
 }

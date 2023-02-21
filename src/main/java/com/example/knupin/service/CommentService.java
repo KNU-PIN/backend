@@ -1,7 +1,7 @@
 package com.example.knupin.service;
 
 import com.example.knupin.model.CommentDTO;
-import com.example.knupin.model.ResponseCommentListDTO;
+import com.example.knupin.model.response.ResponseCommentListDTO;
 import org.springframework.data.domain.Pageable;
 
 public interface CommentService {

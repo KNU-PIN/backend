@@ -1,6 +1,5 @@
-package com.example.knupin.model;
+package com.example.knupin.model.response;
 
-import com.example.knupin.domain.Comment;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
