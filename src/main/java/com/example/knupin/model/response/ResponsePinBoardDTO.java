@@ -37,8 +37,8 @@ public class ResponsePinBoardDTO {
     }
 
     public ResponsePinBoardDTO(Pin pin) {
-        this.latitude = pin.getLatitude();
-        this.longitude = pin.getLongitude();
+        this.latitude = pin.getLatitude()/10000f;
+        this.longitude = pin.getLongitude()/10000f;
         this.title = pin.getTitle();
         this.contents = pin.getContents();
         this.type = pin.getType();

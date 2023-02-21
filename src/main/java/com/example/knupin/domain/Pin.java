@@ -20,9 +20,9 @@ public class Pin {
 
     private String ip;
 
-    private Float latitude; // 위도
+    private int latitude; // 위도
 
-    private Float longitude; //경도
+    private int longitude; //경도
 
     private String title;
 
