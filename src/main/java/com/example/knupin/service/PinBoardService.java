@@ -93,11 +93,27 @@ public class PinBoardService {
     }
 
     public List<ResponseSearchBoardDTO> searchBoard(RequestSearchBoardDTO requestSearchBoardDTO){
+        List<ResponseSearchBoardDTO> responseSearchBoardDTOList = new ArrayList<>();
+
         List<Pin> pinList = pinBoardRepository.searchBoard
                 (requestSearchBoardDTO.getKeyword(),
                         requestSearchBoardDTO.getLatitude()*10000,
                         requestSearchBoardDTO.getLongitude()*10000);
-        return null;
+
+        for(Pin pin: pinList){
+            ResponseSearchBoardDTO responseSearchBoardDTO = ResponseSearchBoardDTO.builder()
+                    .pinId(pin.getPinId())
+                    .title(pin.getTitle())
+                    .contents(pin.getContents())
+                    .createdAt(pin.getCreatedAt())
+                    .commentCnt(0)
+                    .likeCnt(0)
+                    .imgSrc(getPictureSrc(pin.getPinId()))
+                    .build();
+            responseSearchBoardDTOList.add(responseSearchBoardDTO);
+        }
+
+        return responseSearchBoardDTOList;
     }
 
 
