@@ -122,7 +122,7 @@ public class PinBoardService {
                             .type(searchPin.getType())
                             .latitude(searchPin.getLatitude()/10000f)
                             .longitude(searchPin.getLongitude()/10000f)
-                            .img_src(null)
+                            .img_src(getPictureSrc(searchPin.getPinId()))
                             .build();
                     responseSearchPinDTOList.add(responseSearchPinDTO);
                 }
@@ -131,4 +131,14 @@ public class PinBoardService {
         }
         return responseSearchPinDTOList;
     }
+
+
+    private String getPictureSrc(int pinId){
+        List<Picture> pictureList = pictureRepository.findByPinId(pinId);
+        if(!pictureList.isEmpty()){
+            return pictureList.get(0).getPictureSrc();
+        }
+        return null;
+    }
+
 }
