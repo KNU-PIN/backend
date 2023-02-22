@@ -8,7 +8,6 @@ import lombok.Setter;
 @Setter
 @Builder
 public class ResponseSearchPinDTO {
-    private int pinId;
 
     private float latitude;
 
@@ -19,8 +18,7 @@ public class ResponseSearchPinDTO {
     private String img_src;
 
     @Builder
-    public ResponseSearchPinDTO(int pinId, float latitude, float longitude, String type, String img_src) {
-        this.pinId = pinId;
+    public ResponseSearchPinDTO(float latitude, float longitude, String type, String img_src) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.type = type;

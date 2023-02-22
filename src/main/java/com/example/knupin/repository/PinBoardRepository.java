@@ -15,21 +15,18 @@ public interface PinBoardRepository extends JpaRepository<Pin, Integer> {
     List<Pin> findByPinId(int pinId);
 
     @Query(value =
-            "select p.pin_id as pinId, latitude, longitude, type\n" +
-                    "from `knu-pin`.like_pin,\n" +
-                    "(\n" +
-                    "   select * \n" +
-                    "\tfrom `knu-pin`.pin\n" +
+            "select pin_id as pinId, latitude, longitude, type\n" +
+                    "from (\n" +
+                    "\tselect p.*, IFNULL(count,0) as like_cnt \n" +
+                    "\tfrom pin p left join \n" +
+                    "\t\t(select pin_id, count(*) as count from like_pin group by pin_id) l on p.pin_id = l.pin_id\n" +
                     "\twhere (title like CONCAT('%',:keyword,'%')\n" +
-                    "\tOR contents like CONCAT('%',:keyword,'%') )\n" +
-                    "\tand is_deleted = 0\n" +
-                    "\tand (latitude between :latitudeleft and :latituderight)\n" +
-                    "\tand (longitude between :longitudeleft and :longituderight)\n" +
-                    ") as p\n" +
-                    "where like_pin.pin_id = p.pin_id\n" +
-                    "group by p.pin_id\n" +
-                    "order by count(*) desc, p.created_at desc\n" +
-                    "limit 1", nativeQuery = true)
+                    "\t\tOR contents like CONCAT('%',:keyword,'%') )\n" +
+                    "\t\tand is_deleted = 0\n" +
+                    "\t\tand (latitude between :latitudeleft and :latituderight)\n" +
+                    "\t\tand (longitude between :longitudeleft and :longituderight)\n" +
+                    "\torder by like_cnt desc, p.created_at desc\n" +
+                    "\tlimit 1) as result", nativeQuery = true)
     public Optional<SearchPinInterface> searchPin(String keyword, int latitudeleft, int latituderight, int longitudeleft, int longituderight);
 
 }

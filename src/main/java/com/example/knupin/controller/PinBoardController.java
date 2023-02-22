@@ -53,7 +53,7 @@ public class PinBoardController {
 
     @GetMapping("/searchpin")
     @ResponseBody
-    public List<ResponseSearchPinDTO> searchPin(String[] types, String keyword){
+    public HashMap<Integer, ResponseSearchPinDTO> searchPin(String[] types, String keyword){
         RequestSearchPinDTO requestSearchPinDTO = RequestSearchPinDTO.builder()
                 .pinTypes(types)
                 .keyword(keyword)
