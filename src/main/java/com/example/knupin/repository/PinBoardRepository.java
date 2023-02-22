@@ -14,8 +14,15 @@ public interface PinBoardRepository extends JpaRepository<Pin, Integer> {
 
     List<Pin> findByPinId(int pinId);
 
-    @Query(value = "select * from pin", nativeQuery = true)
-    public List<Pin> searchBoard(String keyword, Float latitude, Float longitude);
+    @Query(value = "select *\n" +
+            "from pin\n" +
+            "where is_deleted = false\n" +
+            "and ( latitude between (:latitude - 5) and (:latitude + 5))\n" +
+            "and ( longitude between (:longitude - 5) and (:longitude + 5))\n" +
+            "and (title like CONCAT('%',:keyword,'%')\n" +
+            "OR contents like CONCAT('%',:keyword,'%') )\n" +
+            "order by created_at desc", nativeQuery = true)
+    public List<Pin> searchBoard(String keyword, int latitude, int longitude);
 
     @Query(value =
             "select pin_id as pinId, latitude, longitude, type\n" +

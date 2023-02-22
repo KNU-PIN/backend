@@ -1,5 +1,6 @@
 package com.example.knupin.model.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +16,7 @@ public class ResponseSearchBoardDTO {
     private String contents;
     private int likeCnt;
     private int commentCnt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private Date createdAt;
     private String imgSrc;
 
