@@ -61,7 +61,6 @@ public class PinBoardController {
                 .pinTypes(types)
                 .keyword(keyword)
                 .build();
-
         return pinBoardService.searchPin(requestSearchPinDTO);
     }
 
@@ -76,6 +75,7 @@ public class PinBoardController {
                 .build();
         return pinBoardService.searchBoard(requestSearchBoardDTO);
     }
+
     @PostMapping("/ddabong")
     @ResponseBody
     public int ddabong(@RequestBody RequestLikePinDTO requestLikePinDTO,@RequestHeader("X-FORWARDED-FOR") String ip){

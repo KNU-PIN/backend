@@ -107,6 +107,11 @@ public class PinBoardService {
         pinBoardRepository.save(pin);
     }
 
+    /**
+     * search Board that latitude and logitude away from 0.05
+     * @param requestSearchBoardDTO
+     * @return responseSearchBoardDTO
+     */
     public List<ResponseSearchBoardDTO> searchBoard(RequestSearchBoardDTO requestSearchBoardDTO){
         List<ResponseSearchBoardDTO> responseSearchBoardDTOList = new ArrayList<>();
 
