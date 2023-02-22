@@ -22,10 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.io.IOException;
 import java.util.stream.Collectors;
 
@@ -101,8 +98,8 @@ public class PinBoardService {
      * @param requestSearchPinDTO
      * @return searchPin list(pinId, latitude, longitude, type)
      */
-    public List<ResponseSearchPinDTO> searchPin(RequestSearchPinDTO requestSearchPinDTO) {
-        List<ResponseSearchPinDTO> responseSearchPinDTOList = new ArrayList<>();
+    public HashMap<Integer, ResponseSearchPinDTO> searchPin(RequestSearchPinDTO requestSearchPinDTO) {
+        HashMap<Integer, ResponseSearchPinDTO> responseSearchPinDTOList = new HashMap<>();
         String keyword = requestSearchPinDTO.getKeyword();
 
         for(int i=0; i<200; i+=10){
@@ -118,17 +115,26 @@ public class PinBoardService {
                 ){
                     SearchPinInterface searchPin = searchPinInterface.get();
                     ResponseSearchPinDTO responseSearchPinDTO = ResponseSearchPinDTO.builder()
-                            .pinId(searchPin.getPinId())
                             .type(searchPin.getType())
                             .latitude(searchPin.getLatitude()/10000f)
                             .longitude(searchPin.getLongitude()/10000f)
-                            .img_src(null)
+                            .img_src(getPictureSrc(searchPin.getPinId()))
                             .build();
-                    responseSearchPinDTOList.add(responseSearchPinDTO);
+                    responseSearchPinDTOList.put(searchPin.getPinId(), responseSearchPinDTO);
                 }
 
             }
         }
         return responseSearchPinDTOList;
     }
+
+
+    private String getPictureSrc(int pinId){
+        List<Picture> pictureList = pictureRepository.findByPinId(pinId);
+        if(!pictureList.isEmpty()){
+            return pictureList.get(0).getPictureSrc();
+        }
+        return null;
+    }
+
 }
