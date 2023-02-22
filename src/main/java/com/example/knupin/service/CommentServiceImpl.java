@@ -5,8 +5,10 @@ import com.example.knupin.exception.PinDeletedException;
 import com.example.knupin.exception.PinNotFoundException;
 import com.example.knupin.model.CommentDTO;
 import com.example.knupin.domain.Comment;
+
 import com.example.knupin.model.response.ResponseCommentDTO;
 import com.example.knupin.model.response.ResponseCommentListDTO;
+
 import com.example.knupin.repository.CommentRepository;
 import com.example.knupin.repository.PinBoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -6,7 +6,10 @@ spring:
     url: jdbc:mysql://${DB_URL}:${DB_PORT}/${DB_DB}?autoReconnect=true
     username: ${DB_USER}
     password: ${DB_PASSWORD}
-
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
   jpa:
     properties:
       hibernate:
@@ -18,3 +21,15 @@ spring:
 logging:
   level:
     org.hibernate.SQL: debug
+
+cloud:
+  aws:
+    credentials:
+      accessKey: ${IAM_ACCESSS_KEY}
+      secret: ${IAM_SECRET_KEY}
+    s3:
+      bucket: ${BUCKET_NAME}
+    region:
+      static: ${BUCKET_REGION}
+    stack:
+      auto: false

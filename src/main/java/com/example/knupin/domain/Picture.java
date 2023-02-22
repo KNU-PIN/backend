@@ -1,8 +1,11 @@
 package com.example.knupin.domain;
 
 import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.Getter;
 
 @Entity
+@Getter
 public class Picture {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,4 +19,14 @@ public class Picture {
 
     @Column(nullable = false)
     private int sequence;
+
+    public Picture() {
+    }
+
+    @Builder
+    public Picture(int pinId, String pictureSrc, int sequence) {
+        this.pinId = pinId;
+        this.pictureSrc = pictureSrc;
+        this.sequence = sequence;
+    }
 }
