@@ -33,4 +33,10 @@ public class PinBoardControllerAdvice {
     public ResponseEntity<String> uploadFailedException(UploadFailedException e){
         return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ExceptionHandler(LikePinAlreadyExistException.class)
+    @ResponseBody
+    public ResponseEntity<String> likePinAlreadyExistException(LikePinAlreadyExistException e){
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+    }
 }
