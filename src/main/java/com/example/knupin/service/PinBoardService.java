@@ -1,22 +1,24 @@
 package com.example.knupin.service;
 
 import com.example.knupin.model.request.RequestPinBoardDTO;
+import com.example.knupin.model.request.RequestLikePinDTO;
+import com.example.knupin.model.request.RequestSearchPinDTO;
 import com.example.knupin.model.response.ResponsePinBoardDTO;
 import com.example.knupin.model.response.ResponsePictureDTO;
+import com.example.knupin.model.response.ResponseSearchPinDTO;
+import com.example.knupin.model.SearchPinInterface;
 import com.example.knupin.domain.Picture;
 import com.example.knupin.domain.Pin;
+import com.example.knupin.domain.LikePin;
 import com.example.knupin.exception.UploadFailedException;
 import com.example.knupin.exception.PinNotFoundException;
 import com.example.knupin.exception.PinDeletedException;
 import com.example.knupin.exception.WrongPasswordException;
-
-import com.example.knupin.domain.Pin;
-import com.example.knupin.model.SearchPinInterface;
-import com.example.knupin.model.request.RequestSearchPinDTO;
-import com.example.knupin.model.response.ResponseSearchPinDTO;
+import com.example.knupin.exception.LikePinAlreadyExistException;
 
 import com.example.knupin.repository.PinBoardRepository;
 import com.example.knupin.repository.PictureRepository;
+import com.example.knupin.repository.LikePinRepository;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +38,8 @@ public class PinBoardService {
     private PinBoardRepository pinBoardRepository;
     @Autowired
     private PictureRepository pictureRepository;
+    @Autowired
+    private LikePinRepository likePinRepository;
     @Autowired
     private S3Service s3Service;
 
@@ -70,7 +74,10 @@ public class PinBoardService {
             .map(ResponsePictureDTO::new)
             .collect(Collectors.toList())
         );
-        //responsePinBoardDTO.setLike();
+        responsePinBoardDTO.setLike(
+            likePinRepository
+            .countByPinId(pinId)
+        );
         return responsePinBoardDTO;
     }
 
@@ -137,4 +144,20 @@ public class PinBoardService {
         return null;
     }
 
+    public int ddabong(RequestLikePinDTO likePinDTO){
+        Optional<Pin> optionalPin = pinBoardRepository.findById(likePinDTO.getPinId());
+        if (!optionalPin.isPresent()){
+            throw new PinNotFoundException("The pin does not exist.");
+        }
+        Pin pin = optionalPin.get();
+        if (pin.getIsDeleted()){
+            throw new PinDeletedException("The pin has already been deleted.");
+        }
+        Optional<LikePin> optionalLikePin = likePinRepository.findByPinIdAndIp(likePinDTO.getPinId(), likePinDTO.getIp());
+        if(optionalLikePin.isPresent()){
+            throw new LikePinAlreadyExistException("The like pin already exist.");
+        }
+        likePinRepository.save(likePinDTO.toEntity());
+        return likePinRepository.countByPinId(likePinDTO.getPinId());
+    }
 }
