@@ -1,7 +1,6 @@
 package com.example.knupin.controller;
 
 
-import com.example.knupin.model.PinBoardDTO;
 import com.example.knupin.model.SearchPinInterface;
 import com.example.knupin.model.request.RequestSearchPinDTO;
 import com.example.knupin.model.response.ResponseSearchPinDTO;
