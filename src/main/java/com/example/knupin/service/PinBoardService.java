@@ -1,6 +1,7 @@
 package com.example.knupin.service;
 
 import com.example.knupin.model.request.RequestPinBoardDTO;
+import com.example.knupin.model.request.RequestSearchBoardDTO;
 import com.example.knupin.model.response.ResponsePinBoardDTO;
 import com.example.knupin.model.response.ResponsePictureDTO;
 import com.example.knupin.domain.Picture;
@@ -13,6 +14,7 @@ import com.example.knupin.exception.WrongPasswordException;
 import com.example.knupin.domain.Pin;
 import com.example.knupin.model.SearchPinInterface;
 import com.example.knupin.model.request.RequestSearchPinDTO;
+import com.example.knupin.model.response.ResponseSearchBoardDTO;
 import com.example.knupin.model.response.ResponseSearchPinDTO;
 
 import com.example.knupin.repository.PinBoardRepository;
@@ -88,6 +90,14 @@ public class PinBoardService {
         }
         pin.setIsDeleted(true);
         pinBoardRepository.save(pin);
+    }
+
+    public List<ResponseSearchBoardDTO> searchBoard(RequestSearchBoardDTO requestSearchBoardDTO){
+        List<Pin> pinList = pinBoardRepository.searchBoard
+                (requestSearchBoardDTO.getKeyword(),
+                        requestSearchBoardDTO.getLatitude()*10000,
+                        requestSearchBoardDTO.getLongitude()*10000);
+        return null;
     }
 
 
