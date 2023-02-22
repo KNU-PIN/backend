@@ -100,17 +100,16 @@ public class PinBoardService {
 
         List<Pin> pinList = pinBoardRepository.searchBoard
                 (requestSearchBoardDTO.getKeyword(),
-                        (int) (requestSearchBoardDTO.getLatitude()*10000),
-                        (int) (requestSearchBoardDTO.getLongitude()*10000));
+                        requestSearchBoardDTO.getLatitude()*10000,
+                        requestSearchBoardDTO.getLongitude()*10000);
 
         for(Pin pin: pinList){
-            System.out.println("pin.getPinId() = " + pin.getPinId());
             ResponseSearchBoardDTO responseSearchBoardDTO = ResponseSearchBoardDTO.builder()
                     .pinId(pin.getPinId())
                     .title(pin.getTitle())
                     .contents(pin.getContents())
                     .createdAt(pin.getCreatedAt())
-                    .commentCnt(commentRepository.countByPinId(pin.getPinId()))
+                    .commentCnt(0)
                     .likeCnt(0)
                     .imgSrc(getPictureSrc(pin.getPinId()))
                     .build();
