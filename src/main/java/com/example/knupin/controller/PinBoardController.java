@@ -6,9 +6,10 @@ import com.example.knupin.model.request.RequestSearchBoardDTO;
 import com.example.knupin.model.request.RequestSearchPinDTO;
 import com.example.knupin.model.response.ResponseSearchBoardDTO;
 import com.example.knupin.model.response.ResponseSearchPinDTO;
-import com.example.knupin.domain.Pin;
 import com.example.knupin.model.request.RequestPinBoardDTO;
 import com.example.knupin.model.response.ResponsePinBoardDTO;
+import com.example.knupin.model.request.RequestLikePinDTO;
+import com.example.knupin.domain.Pin;
 
 import com.example.knupin.service.PinBoardService;
 import com.example.knupin.service.S3Service;
@@ -74,5 +75,12 @@ public class PinBoardController {
                 .keyword(keyword)
                 .build();
         return pinBoardService.searchBoard(requestSearchBoardDTO);
+    }
+    @PostMapping("/ddabong")
+    @ResponseBody
+    public int ddabong(@RequestBody RequestLikePinDTO requestLikePinDTO,@RequestHeader("X-FORWARDED-FOR") String ip){
+        requestLikePinDTO.setIp(ip);
+        requestLikePinDTO.setCreatedAt(Timestamp.valueOf(LocalDateTime.now().atZone(ZoneId.of("Asia/Seoul")).toLocalDateTime()));
+        return pinBoardService.ddabong(requestLikePinDTO);
     }
 }
