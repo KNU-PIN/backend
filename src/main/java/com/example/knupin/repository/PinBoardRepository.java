@@ -14,6 +14,9 @@ public interface PinBoardRepository extends JpaRepository<Pin, Integer> {
 
     List<Pin> findByPinId(int pinId);
 
+    @Query(value = "select * from pin", nativeQuery = true)
+    public List<Pin> searchBoard(String keyword, Float latitude, Float longitude);
+
     @Query(value =
             "select pin_id as pinId, latitude, longitude, type\n" +
                     "from (\n" +
