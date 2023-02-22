@@ -17,6 +17,7 @@ import com.example.knupin.model.request.RequestSearchPinDTO;
 import com.example.knupin.model.response.ResponseSearchBoardDTO;
 import com.example.knupin.model.response.ResponseSearchPinDTO;
 
+import com.example.knupin.repository.CommentRepository;
 import com.example.knupin.repository.PinBoardRepository;
 import com.example.knupin.repository.PictureRepository;
 
@@ -38,6 +39,8 @@ public class PinBoardService {
     private PinBoardRepository pinBoardRepository;
     @Autowired
     private PictureRepository pictureRepository;
+    @Autowired
+    private CommentRepository commentRepository;
     @Autowired
     private S3Service s3Service;
 
@@ -97,16 +100,17 @@ public class PinBoardService {
 
         List<Pin> pinList = pinBoardRepository.searchBoard
                 (requestSearchBoardDTO.getKeyword(),
-                        requestSearchBoardDTO.getLatitude()*10000,
-                        requestSearchBoardDTO.getLongitude()*10000);
+                        (int) (requestSearchBoardDTO.getLatitude()*10000),
+                        (int) (requestSearchBoardDTO.getLongitude()*10000));
 
         for(Pin pin: pinList){
+            System.out.println("pin.getPinId() = " + pin.getPinId());
             ResponseSearchBoardDTO responseSearchBoardDTO = ResponseSearchBoardDTO.builder()
                     .pinId(pin.getPinId())
                     .title(pin.getTitle())
                     .contents(pin.getContents())
                     .createdAt(pin.getCreatedAt())
-                    .commentCnt(0)
+                    .commentCnt(commentRepository.countByPinId(pin.getPinId()))
                     .likeCnt(0)
                     .imgSrc(getPictureSrc(pin.getPinId()))
                     .build();
