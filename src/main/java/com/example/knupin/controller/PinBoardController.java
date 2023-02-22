@@ -1,7 +1,9 @@
 package com.example.knupin.controller;
 
 import com.example.knupin.model.PinBoardDTO;
+import com.example.knupin.model.SearchPinInterface;
 import com.example.knupin.model.request.RequestSearchPinDTO;
+import com.example.knupin.model.response.ResponseSearchPinDTO;
 import com.example.knupin.service.PinBoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -44,13 +46,13 @@ public class PinBoardController {
 
     @GetMapping("/searchpin")
     @ResponseBody
-    public Object searchPin(String[] types, String keyword){
+    public List<ResponseSearchPinDTO> searchPin(String[] types, String keyword){
         RequestSearchPinDTO requestSearchPinDTO = RequestSearchPinDTO.builder()
                 .pinTypes(types)
                 .keyword(keyword)
                 .build();
 
-        return requestSearchPinDTO;
+        return pinBoardService.searchPin(requestSearchPinDTO);
     }
 
 }
