@@ -72,11 +72,6 @@ public class PinBoardService {
         List<ResponseSearchPinDTO> responseSearchPinDTOList = new ArrayList<>();
         String keyword = requestSearchPinDTO.getKeyword();
 
-        // empty keyword
-//        if(keyword == null || keyword.isEmpty()){
-//            keyword = "''";
-//        }
-
         for(int i=0; i<200; i+=10){
             for(int j=0; j<200; j+=10){
 
