@@ -2,7 +2,9 @@ package com.example.knupin.controller;
 
 
 import com.example.knupin.model.SearchPinInterface;
+import com.example.knupin.model.request.RequestSearchBoardDTO;
 import com.example.knupin.model.request.RequestSearchPinDTO;
+import com.example.knupin.model.response.ResponseSearchBoardDTO;
 import com.example.knupin.model.response.ResponseSearchPinDTO;
 import com.example.knupin.model.request.RequestPinBoardDTO;
 import com.example.knupin.model.response.ResponsePinBoardDTO;
@@ -59,8 +61,19 @@ public class PinBoardController {
                 .pinTypes(types)
                 .keyword(keyword)
                 .build();
-
         return pinBoardService.searchPin(requestSearchPinDTO);
+    }
+
+    @GetMapping("/searchboard")
+    @ResponseBody
+    public List<ResponseSearchBoardDTO> searchBoard(String[] types, Float latitude, Float longitude, String keyword){
+        RequestSearchBoardDTO requestSearchBoardDTO = RequestSearchBoardDTO.builder()
+                .types(types)
+                .latitude(latitude)
+                .longitude(longitude)
+                .keyword(keyword)
+                .build();
+        return pinBoardService.searchBoard(requestSearchBoardDTO);
     }
 
     @PostMapping("/ddabong")

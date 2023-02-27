@@ -1,6 +1,7 @@
 package com.example.knupin.service;
 
 import com.example.knupin.model.request.RequestPinBoardDTO;
+import com.example.knupin.model.request.RequestSearchBoardDTO;
 import com.example.knupin.model.request.RequestLikePinDTO;
 import com.example.knupin.model.request.RequestSearchPinDTO;
 import com.example.knupin.model.response.ResponsePinBoardDTO;
@@ -14,8 +15,15 @@ import com.example.knupin.exception.UploadFailedException;
 import com.example.knupin.exception.PinNotFoundException;
 import com.example.knupin.exception.PinDeletedException;
 import com.example.knupin.exception.WrongPasswordException;
+
+import com.example.knupin.domain.Pin;
+import com.example.knupin.model.SearchPinInterface;
+import com.example.knupin.model.request.RequestSearchPinDTO;
+import com.example.knupin.model.response.ResponseSearchBoardDTO;
+import com.example.knupin.model.response.ResponseSearchPinDTO;
 import com.example.knupin.exception.LikePinAlreadyExistException;
 
+import com.example.knupin.repository.CommentRepository;
 import com.example.knupin.repository.PinBoardRepository;
 import com.example.knupin.repository.PictureRepository;
 import com.example.knupin.repository.LikePinRepository;
@@ -38,6 +46,8 @@ public class PinBoardService {
     private PinBoardRepository pinBoardRepository;
     @Autowired
     private PictureRepository pictureRepository;
+    @Autowired
+    private CommentRepository commentRepository;
     @Autowired
     private LikePinRepository likePinRepository;
     @Autowired
@@ -95,6 +105,35 @@ public class PinBoardService {
         }
         pin.setIsDeleted(true);
         pinBoardRepository.save(pin);
+    }
+
+    /**
+     * search Board that latitude and logitude away from 0.05
+     * @param requestSearchBoardDTO
+     * @return responseSearchBoardDTO
+     */
+    public List<ResponseSearchBoardDTO> searchBoard(RequestSearchBoardDTO requestSearchBoardDTO){
+        List<ResponseSearchBoardDTO> responseSearchBoardDTOList = new ArrayList<>();
+
+        List<Pin> pinList = pinBoardRepository.searchBoard
+                (requestSearchBoardDTO.getKeyword(),
+                        (int) (requestSearchBoardDTO.getLatitude()*10000),
+                        (int) (requestSearchBoardDTO.getLongitude()*10000));
+
+        for(Pin pin: pinList){
+            ResponseSearchBoardDTO responseSearchBoardDTO = ResponseSearchBoardDTO.builder()
+                    .pinId(pin.getPinId())
+                    .title(pin.getTitle())
+                    .contents(pin.getContents())
+                    .createdAt(pin.getCreatedAt())
+                    .commentCnt(commentRepository.countByPinId(pin.getPinId()))
+                    .likeCnt(likePinRepository.countByPinId(pin.getPinId()))
+                    .imgSrc(getPictureSrc(pin.getPinId()))
+                    .build();
+            responseSearchBoardDTOList.add(responseSearchBoardDTO);
+        }
+
+        return responseSearchBoardDTOList;
     }
 
 
