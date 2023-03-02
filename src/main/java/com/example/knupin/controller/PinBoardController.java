@@ -83,4 +83,10 @@ public class PinBoardController {
         requestLikePinDTO.setCreatedAt(Timestamp.valueOf(LocalDateTime.now().atZone(ZoneId.of("Asia/Seoul")).toLocalDateTime()));
         return pinBoardService.ddabong(requestLikePinDTO);
     }
+    
+    @GetMapping("/checkDdabong")
+    @ResponseBody
+    public boolean checkDdabong(@RequestParam int pinId,@RequestHeader("X-FORWARDED-FOR") String ip){
+        return pinBoardService.checkDdabong(pinId,ip);
+    }
 }
