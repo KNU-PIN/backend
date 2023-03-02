@@ -199,4 +199,20 @@ public class PinBoardService {
         likePinRepository.save(likePinDTO.toEntity());
         return likePinRepository.countByPinId(likePinDTO.getPinId());
     }
+    
+    public boolean checkDdabong(int pinId, String ip){
+        Optional<Pin> optionalPin = pinBoardRepository.findById(pinId);
+        if (!optionalPin.isPresent()){
+            throw new PinNotFoundException("The pin does not exist.");
+        }
+        Pin pin = optionalPin.get();
+        if (pin.getIsDeleted()){
+            throw new PinDeletedException("The pin has already been deleted.");
+        }
+        Optional<LikePin> optionalLikePin = likePinRepository.findByPinIdAndIp(pinId, ip);
+        if(optionalLikePin.isPresent()){
+            return true;
+        }
+        return false;
+    }
 }
