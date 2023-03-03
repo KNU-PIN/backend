@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 
 import java.time.ZoneId;
 import java.util.*;
@@ -34,9 +35,11 @@ public class PinBoardController {
 
     @GetMapping("/{pinId}")
     @ResponseBody
-    public ResponsePinBoardDTO readPinBoard(@PathVariable int pinId){
-        System.out.println("readPinBoard "+pinId);
-        return pinBoardService.readPinBoard(pinId);
+    public ResponsePinBoardDTO readPinBoard(@PathVariable int pinId,HttpServletRequest req){
+		String ip = req.getHeader("X-FORWARDED-FOR");
+		if (ip == null)
+			ip = req.getRemoteAddr();
+        return pinBoardService.readPinBoard(pinId,ip);
     }
 
     @PostMapping("/createpin")
@@ -84,9 +87,4 @@ public class PinBoardController {
         return pinBoardService.ddabong(requestLikePinDTO);
     }
     
-    @GetMapping("/checkDdabong")
-    @ResponseBody
-    public boolean checkDdabong(@RequestParam int pinId,@RequestHeader("X-FORWARDED-FOR") String ip){
-        return pinBoardService.checkDdabong(pinId,ip);
-    }
 }
