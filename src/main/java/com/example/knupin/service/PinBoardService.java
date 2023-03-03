@@ -67,7 +67,7 @@ public class PinBoardService {
         return pinId;
     }
 
-    public ResponsePinBoardDTO readPinBoard(int pinId) {
+    public ResponsePinBoardDTO readPinBoard(int pinId, String ip) {
         Optional<Pin> optionalPin = pinBoardRepository.findById(pinId);
         if (!optionalPin.isPresent()){
             throw new PinNotFoundException("The pin does not exist.");
@@ -87,6 +87,11 @@ public class PinBoardService {
         responsePinBoardDTO.setLike(
             likePinRepository
             .countByPinId(pinId)
+        );
+        responsePinBoardDTO.setIsliked(
+            likePinRepository
+            .findByPinIdAndIp(pinId, ip)
+            .isPresent()
         );
         return responsePinBoardDTO;
     }

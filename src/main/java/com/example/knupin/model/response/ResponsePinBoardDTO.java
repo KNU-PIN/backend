@@ -33,6 +33,8 @@ public class ResponsePinBoardDTO {
 
     private int like;
 
+    private boolean isliked;
+
     public ResponsePinBoardDTO() {
     }
 
