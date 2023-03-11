@@ -25,7 +25,10 @@ public class CommentController {
 
     @PostMapping("/create")
     @ResponseBody
-    public void createComment(@RequestBody CommentDTO commentDTO,@RequestHeader("X-FORWARDED-FOR") String ip){   
+    public void createComment(@RequestBody CommentDTO commentDTO,HttpServletRequest req){
+		String ip = req.getHeader("X-FORWARDED-FOR");
+		if (ip == null)
+			ip = req.getRemoteAddr();
         commentDTO.setIp(ip);
         commentDTO.setCreatedAt(Timestamp.valueOf(LocalDateTime.now().atZone(ZoneId.of("Asia/Seoul")).toLocalDateTime()));
         commentService.createComment(commentDTO);
