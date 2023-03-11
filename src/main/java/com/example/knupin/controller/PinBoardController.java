@@ -44,7 +44,10 @@ public class PinBoardController {
 
     @PostMapping("/createpin")
     @ResponseBody
-    public int createPinBoard(RequestPinBoardDTO body,@RequestHeader("X-FORWARDED-FOR") String ip){
+    public int createPinBoard(RequestPinBoardDTO body,HttpServletRequest req){
+	String ip = req.getHeader("X-FORWARDED-FOR");
+	if (ip == null)
+		ip = req.getRemoteAddr();
         body.setIp(ip);
         body.setCreatedAt(Timestamp.valueOf(LocalDateTime.now().atZone(ZoneId.of("Asia/Seoul")).toLocalDateTime()));
         return pinBoardService.createPinBoard(body);
@@ -81,7 +84,10 @@ public class PinBoardController {
 
     @PostMapping("/ddabong")
     @ResponseBody
-    public int ddabong(@RequestBody RequestLikePinDTO requestLikePinDTO,@RequestHeader("X-FORWARDED-FOR") String ip){
+    public int ddabong(@RequestBody RequestLikePinDTO requestLikePinDTO,HttpServletRequest req){
+	String ip = req.getHeader("X-FORWARDED-FOR");
+	if (ip == null)
+		ip = req.getRemoteAddr();
         requestLikePinDTO.setIp(ip);
         requestLikePinDTO.setCreatedAt(Timestamp.valueOf(LocalDateTime.now().atZone(ZoneId.of("Asia/Seoul")).toLocalDateTime()));
         return pinBoardService.ddabong(requestLikePinDTO);
