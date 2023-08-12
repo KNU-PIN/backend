@@ -30,3 +30,7 @@
 
 따라서 KNU-PIN에서는 핀에 사진을 담아 시각적인 요소를 더하고자 합니다.
 
+### 사용예시
+![image](https://github.com/KNU-PIN/backend/assets/86493874/16d332b0-aca3-42ea-9b4c-969c4973db4f)
+![image](https://github.com/KNU-PIN/backend/assets/86493874/2c0db841-3e4a-4fe2-8d48-edf7ddaf8d57)
+
